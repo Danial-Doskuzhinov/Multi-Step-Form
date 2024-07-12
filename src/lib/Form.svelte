@@ -6,7 +6,7 @@ import './Font'
 
  const upDate=()=>{step.updateStep("+");
 
- console.log($personInfo.name , $personInfo.email ,$personInfo.phone);
+//  console.log($personInfo.name , $personInfo.email ,$personInfo.phone);
  
 }
 </script>
