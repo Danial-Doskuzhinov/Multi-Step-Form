@@ -1,257 +1,239 @@
 <script lang="ts">
-	import { writable } from 'svelte/store';
 	import checkMarkImg from './img/icon-checkmark.svg';
-	import {  step } from './stores/store-step'; // Импорт  step из store-step
-	import { createPlanStore, plans , subscription, addons } from "./stores/Plan-store";
+	import { step } from './stores/store-step'; // Импорт step из store-step
+	import { subscription, addons } from "./stores/Plan-store";
+	import { onMount } from 'svelte';
+	import Button from './Button.svelte';
 
-	// export let onlineServiceAddOnIsAdded = writable(false);
-	// export let monthlyIsSelected = writable(true);
-	// export let largerStoreAddOnIsAdded = writable(false);
-	// export let customizableProfileAddOnIsAdded = writable(false);
-
+	const updateAddons = (addon: (typeof $subscription.addon)[0]) => {
+		subscription.changeAddon(
+			$subscription.addon.map((a) => a.id).includes(addon.id)
+				? $subscription.addon.filter((a) => a.id !== addon.id)
+				: [...$subscription.addon, addon]
+		);
+	};
 	let showComponent = false;
-
-	window.setTimeout(() => {
-		showComponent = true;
-	}, 0);
-
+  
+	onMount(() => {
+	  showComponent = true;
+	});
+  
 	const goToNextStep = () => {
-		step.updateStep('+');
+	  step.updateStep('+');
 	};
-
+  
 	const goBack = () => {
-		step.updateStep('-'); // Переход на предыдущий шаг
+	  step.updateStep('-');
 	};
+  
+	function Test() {
+	  console.log("text ex", $subscription);
+	}
+  
 
-	function Test () {
-				console.log("text ex", $subscription);
-			  }
-
-</script>
-
-<main>
+  </script>
+  
+  <main>
 	<form class="AddOns-form" class:show={showComponent}>
-		<h3>Pick add-ons</h3>
-		<p class="AddOns-description">Add-ons help enhance your gaming experience.</p>
-		<div class="AddOns-container">
-			<!-- <button
-				class="AddOns-choice"
-				class:selected={$onlineServiceAddOnIsAdded}
-				on:click={() => {
-					$onlineServiceAddOnIsAdded = !$onlineServiceAddOnIsAdded;
-				}}
-			>
-				<div class="checkBox" class:selected={$onlineServiceAddOnIsAdded}>
-					<img src={checkMarkImg} alt="" />
-				</div>
-				<div class="choice-info">
-					<p class="choice-info-1">Online service</p>
-					<p class="choice-info-2">Access to multiplayer games</p>
-				</div>
-				{#if $subscription.billing === 'monthly'}
-					<p class="price">+$1/mo</p>
-				{:else}
-					<p class="price">+$10/yr</p>
-				{/if}
-			</button>
-			<button
-				class="AddOns-choice"
-				class:selected={$largerStoreAddOnIsAdded}
-				on:click={() => {
-					$largerStoreAddOnIsAdded = !$largerStoreAddOnIsAdded;
-				}}
-			>
-				<div class="checkBox" class:selected={$largerStoreAddOnIsAdded}>
-					<img src={checkMarkImg} alt="" />
-				</div>
-				<div class="choice-info">
-					<p class="choice-info-1">Larger storage</p>
-					<p class="choice-info-2">Extra 1TB of cloud save</p>
-				</div>
-				{#if $subscription.billing === 'monthly'}
-					<p class="price">+$2/mo</p>
-				{:else}
-					<p class="price">+$20/yr</p>
-				{/if}
-			</button>
-			<button
-				class="AddOns-choice"
-				class:selected={$customizableProfileAddOnIsAdded}
-				on:click={() => {
-					$customizableProfileAddOnIsAdded = !$customizableProfileAddOnIsAdded;
-				}}
-			>
-				<div class="checkBox" class:selected={$customizableProfileAddOnIsAdded}>
-					<img src={checkMarkImg} alt="" />
-				</div>
-				<div class="choice-info">
-					<p class="choice-info-1">Customizable profile</p>
-					<p class="choice-info-2">Custom theme on your profile</p>
-				</div>
-				{#if $subscription.billing === 'monthly'}
-					<p class="price">+$2/mo</p>
-				{:else}
-					<p class="price">+$20/yr</p>
-				{/if}
-			</button> -->
-
-			{#each addons as addon (addon.id)}
-			<button class={$subscription.addon.id === addon.id ? "AddOns-choice" : "AddOns-choice"}
-			
-				on:click={() => subscription.changeAddon(addon)}>
-				<p>{addon.name}</p>	
-				<input type="checkbox" />	
-				<img src={checkMarkImg} alt="check" />
-				<div class="choice-info">
-					<p class="choice-info-1">{addon.name}</p>
-					 <p class="choice-info-2">{addon.Yedil}</p> 
-				</div>
-				{#if $subscription.billing === 'monthly'}
-					<p class="price">${addon.monthlyPrice}/mo</p>
-				{:else}
-					<p class="price">${addon.yearlyPrice}/yr</p>
-				{/if}			
-			</button>
-		   {/each}
-
-			<!-- Едиль твой консоль здесь<p>Show selected console.log </p><input type="checkbox" on:click={Test}>  -->
-		</div>
-		<div class="navigation-buttons">
-			<button type="button" class="go-back" on:click={goBack}>Go Back</button>
-			<button type="button" class="next-step" on:click={goToNextStep}>Next Step</button>
-		</div>
+	  <h3>Pick add-ons</h3>
+	  <p class="AddOns-description">Add-ons help enhance your gaming experience.</p>
+	  <div class="AddOns-container">
+		{#each addons as addon (addon.id)}
+		  <div class="AddOns-choice" >
+			<div class="checkbox-wrapper-43">
+			  <input type="checkbox"
+			  name={addon.id}
+			  id={addon.id}
+			  checked={$subscription.addon.map((a) =>a.id ).includes(addon.id)}
+			  on:change={() => updateAddons(addon)}>
+			  <label for={`${addon.id}`} class="check">
+				<svg width="18px" height="18px" viewBox="0 0 18 18">
+				  <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+				  <polyline points="1 9 7 14 15 4"></polyline>
+				</svg>
+			  </label>
+			</div>
+			<img src={checkMarkImg} alt="check" />
+			<div class="choice-info">
+			  <p class="choice-info-1">{addon.name}</p>
+			  <p class="choice-info-2">{addon.Yedil}</p>
+			</div>
+			{#if $subscription.billing === 'monthly'}
+			  <p class="price">${addon.monthlyPrice}/mo</p>
+			{:else}
+			  <p class="price">${addon.yearlyPrice}/yr</p>
+			{/if}
+		  </div>
+		{/each}
+	  </div>
+		<Button/>
 	</form>
-</main>
-
-<style>
+  </main>
+  
+  <style>
+	.checkbox-wrapper-43 input[type="checkbox"] {
+	  display: none;
+	  visibility: hidden;
+	}
+  
+	.checkbox-wrapper-43 label {
+	  display: inline-block;
+	}
+  
+	.checkbox-wrapper-43 .check {
+	  cursor: pointer;
+	  position: relative;
+	  margin: auto;
+	  width: 18px;
+	  height: 18px;
+	  -webkit-tap-highlight-color: transparent;
+	  transform: translate3d(0, 0, 0);
+	}
+	.checkbox-wrapper-43 .check:before {
+	  content: "";
+	  position: absolute;
+	  top: -15px;
+	  left: -15px;
+	  width: 48px;
+	  height: 48px;
+	  border-radius: 50%;
+	  background: rgba(34,50,84,0.03);
+	  opacity: 0;
+	  transition: opacity 0.2s ease;
+	}
+	.checkbox-wrapper-43 .check svg {
+	  position: relative;
+	  z-index: 1;
+	  fill: none;
+	  stroke-linecap: round;
+	  stroke-linejoin: round;
+	  stroke: #c8ccd4;
+	  stroke-width: 1.5;
+	  transform: translate3d(0, 0, 0);
+	  transition: all 0.2s ease;
+	}
+	.checkbox-wrapper-43 .check svg path {
+	  stroke-dasharray: 60;
+	  stroke-dashoffset: 0;
+	}
+	.checkbox-wrapper-43 .check svg polyline {
+	  stroke-dasharray: 22;
+	  stroke-dashoffset: 66;
+	}
+	.checkbox-wrapper-43 .check:hover:before {
+	  opacity: 1;
+	}
+	.checkbox-wrapper-43 .check:hover svg {
+	  stroke: #4285f4;
+	}
+	.checkbox-wrapper-43 input[type="checkbox"]:checked + .check svg {
+	  stroke: #4285f4;
+	}
+	.checkbox-wrapper-43 input[type="checkbox"]:checked + .check svg path {
+	  stroke-dashoffset: 60;
+	  transition: all 0.3s linear;
+	}
+	.checkbox-wrapper-43 input[type="checkbox"]:checked + .check svg polyline {
+	  stroke-dashoffset: 42;
+	  transition: all 0.2s linear;
+	  transition-delay: 0.15s;
+	}
 	h3 {
-		font-family: 'Ubuntu';
-		font-weight: 700;
-		font-size: 24px;
-		line-height: 28px;
-		color: #022959;
-		margin-bottom: 9px;
+	  font-family: 'Ubuntu';
+	  font-weight: 700;
+	  font-size: 24px;
+	  line-height: 28px;
+	  color: #022959;
+	  margin-bottom: 9px;
 	}
-
+  
 	.AddOns-description {
-		font-size: 16px;
-		line-height: 25px;
-		color: #9699aa;
-		margin-bottom: 22px;
+	  font-size: 16px;
+	  line-height: 25px;
+	  color: #9699aa;
+	  margin-bottom: 22px;
 	}
-
+  
 	.AddOns-container {
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
+	  display: flex;
+	  flex-direction: column;
+	  gap: 12px;
+	  margin-bottom: 50px;
 	}
-
+  
 	.AddOns-choice {
-		height: 62px;
-		background-color: white;
-		border: 1px solid #d6d9e6;
-		border-radius: 8px;
-		cursor: pointer;
-		padding-inline: 16px;
-		display: flex;
-		align-items: center;
-		gap: 16px;
+	  height: 62px;
+	  background-color: white;
+	  border: 1px solid #d6d9e6;
+	  border-radius: 8px;
+	  cursor: pointer;
+	  padding-inline: 16px;
+	  display: flex;
+	  align-items: center;
+	  gap: 16px;
 	}
-
+  
 	.choice-info {
-		text-align: left;
+	  text-align: left;
 	}
-
+  
 	.choice-info-1 {
+	  font-family: 'Ubuntu';
+	  font-weight: 700;
+	  font-size: 14px;
+	  line-height: 16px;
+	  color: #022959;
+	}
+  
+	.choice-info-2 {
+	  font-family: 'Ubuntu';
+	  font-size: 12px;
+	  line-height: 20px;
+	  color: #9699aa;
+	}
+  
+	.price {
+	  font-family: 'Ubuntu';
+	  font-size: 12px;
+	  line-height: 20px;
+	  color: #483eff;
+	  margin-left: auto;
+	}
+  
+	@media screen and (min-width: 1440px) {
+	  h3 {
+		font-size: 32px;
+		line-height: 37px;
+		margin-bottom: 11px;
+	  }
+  
+	  .AddOns-description {
+		margin-bottom: 35px;
+	  }
+  
+	  .AddOns-choice {
+		height: 81px;
+		padding-inline: 24px;
+		transition: 0.15s;
+	  }
+  
+	  .choice-info-1 {
 		font-family: 'Ubuntu';
 		font-weight: 700;
+		font-size: 16px;
+		line-height: 18px;
+	  }
+  
+	  .choice-info-2 {
+		font-family: 'Ubuntu';
 		font-size: 14px;
-		line-height: 16px;
-		color: #022959;
-	}
-
-	.choice-info-2 {
+	  }
+  
+	  .price {
 		font-family: 'Ubuntu';
-		font-size: 12px;
-		line-height: 20px;
-		color: #9699aa;
+		font-size: 14px;
+	  }
 	}
-
-	.price {
-		font-family: 'Ubuntu';
-		font-size: 12px;
-		line-height: 20px;
-		color: #483eff;
-		margin-left: auto;
-	}
-
-	@media screen and (min-width: 1440px) {
-		h3 {
-			font-size: 32px;
-			line-height: 37px;
-			margin-bottom: 11px;
-		}
-
-		.AddOns-description {
-			margin-bottom: 35px;
-		}
-
-		.AddOns-choice {
-			height: 81px;
-			padding-inline: 24px;
-			transition: 0.15s;
-		}
-
-		.choice-info-1 {
-			font-family: 'Ubuntu';
-			font-weight: 700;
-			font-size: 16px;
-			line-height: 18px;
-		}
-
-		.choice-info-2 {
-			font-family: 'Ubuntu';
-			font-size: 14px;
-		}
-
-		.price {
-			font-family: 'Ubuntu';
-			font-size: 14px;
-		}
-	}
-
-	
-
-	.navigation-buttons {
-    display: flex;
-    justify-content: space-between; /* Равномерное распределение элементов */
-    margin-top: 20px;
-    margin-bottom: 20px; /* Добавленный отступ снизу */
-}
-
-.next-step {
-    color: rgb(255, 255, 255);
-    font-family: 'Ubuntu';
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 18px;
-    letter-spacing: 0px;
-    width: 123px;
-    height: 48px;
-    border-radius: 8px;
-    background: rgb(2, 41, 89);
-    cursor: pointer;
-}
-
-.go-back {
-    color: rgb(150, 153, 170);
-    font-family: 'Ubuntu';
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 18px;
-    letter-spacing: 0px;
-    text-align: left;
-    cursor: pointer;
-    border: none; /* Удаление обводки */
-}
-</style>
+  
+  </style>
+  

@@ -19,6 +19,7 @@ import BgSideBarMobile from './img/bg-sidebar-mobile.svg'
 -->
   
   <script>
+    import {step} from '../lib/stores/store-step';
     import BgSideBar from './img/bg-sidebar-desktop.svg';
 import BgSideBarMobile from './img/bg-sidebar-mobile.svg';
     let currentStep = 0;
@@ -34,19 +35,19 @@ import BgSideBarMobile from './img/bg-sidebar-mobile.svg';
     </picture>
   <div class="steps">
 
-    <div class="step {currentStep === 1 ? 'active' : ''}" >
+    <div class="step {$step === 1 ? 'active' : ''}" >
       <div class="number">1</div>
       <span class="mobile-hidden"><span class="Steps">Step 1</span><br> Your info</span>
     </div>
-    <div class="step {currentStep === 2 ? 'active' : ''}" >
+    <div class="step {$step === 2 ? 'active' : ''}" >
       <div class="number">2</div>
       <span class="mobile-hidden"><span class="Steps">Step 2</span><br> Select plan</span>
     </div>
-    <div class="step {currentStep === 3 ? 'active' : ''}" >
+    <div class="step {$step === 3 ? 'active' : ''}" >
       <div class="number">3</div>
       <span class="mobile-hidden"><span class="Steps">Step 3</span><br> Add-ons</span>
     </div>
-    <div class="step {currentStep === 4 ? 'active' : ''}">
+    <div class="step {$step === 4 ? 'active' : ''}">
       <div class="number">4</div>
       <span class="mobile-hidden"><span class="Steps">Step 4</span><br> Summary</span>
     </div>
@@ -89,36 +90,20 @@ import BgSideBarMobile from './img/bg-sidebar-mobile.svg';
   
     .step.active .number {
       background-color: #a3d0fe;
+      color: rgb(2, 41, 89);
+font-family: Ubuntu;
+font-size: 14px;
+font-weight: 700;
+line-height: 16px;
+letter-spacing: 1px;
+text-align: center;
+text-transform: uppercase;
     }
   
     .step.active {
       color: #a3d0fe;
     }
-    .form-steps {
-      position: relative;
-      margin: 16px;
-      margin-right: 100px;
-    }
-    .form-steps > ol {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      position: absolute;
-      top: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .form-step {
-      color: rgb(255, 255, 255);
-      font-family: 'Ubuntu', sans-serif;
-      font-size: 14px;
-      line-height: 16px;
-      letter-spacing: 0.5px;
-      text-align: left;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
+   
     .Steps {
       color: rgb(171, 188, 255);
       font-family: 'Ubuntu', sans-serif;

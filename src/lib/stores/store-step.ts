@@ -11,16 +11,16 @@ export const personInfo = writable<Info>({
 	email: '',
 	phone: ''
   });
-function createStepStore(){
+ function createStepStore(){
 
 	const { subscribe, update} = writable(1);
 
 	const updateStep = (action: '+' | '-' ) =>
-		update((step) => {
-			if(action === '+' && step<5 ){
-       return step+=1;    
-       }else if(action === '-' && step>1){
-       return step-=1
+		update((stp) => {
+			if(action === '+' && stp<5 ){
+       return stp+=1;    
+       }else if(action === '-' && stp>1){
+       return stp-=1
      }else{ 
         return 1
     } 
@@ -34,4 +34,4 @@ return {
 	};
 };
 
-export const step = createStepStore();
+ export const step = createStepStore();

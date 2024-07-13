@@ -15,22 +15,22 @@
   // }
   
   
-  //примитивно через новую функцию отправляем новые данные
-  function changePlan () {
-    updatePlan('pro', 15)
-  }
+  // //примитивно через новую функцию отправляем новые данные
+  // function changePlan () {
+  //   updatePlan('pro', 15)
+  // }
   
-  function changePlanAdv () {
-    updatePlan('advanced', 12)
-  }
+  // function changePlanAdv () {
+  //   updatePlan('advanced', 12)
+  // }
   
-  function changePlanArc () {
-    updatePlan('arcade', 9)
-  }
+  // function changePlanArc () {
+  //   updatePlan('arcade', 9)
+  // }
   
-  function changebilling () {
-    subscription.changeBilling()
-  }
+  // function changebilling () {
+  //   subscription.changeBilling()
+  // }
   
   function Test () {
   console.log("text ex", $subscription);
@@ -39,7 +39,6 @@
 </script>
   
   <div>
-    
     <h2 class="step-title">Select your plan</h2>
       <p class="step-subtitle">You have the option of mounthly or yearly billing.</p>
       <div class="button-plan">
@@ -48,90 +47,81 @@
 					on:click={() => subscription.changePlan(plan)}>
 					<img src={`/imgs/icon-${plan.id}.svg`} alt={`${plan.id} plan`} />
 					<div>
-						<p>{plan.name}</p>		
+						<p class="planName">{plan.name}</p>		
               {#if $subscription.billing === 'yearly'}
-              <p> $ {plan.yearlyPrice} /yr</p>
-              <p>2 months free</p>
+              <p class="price"> $ {plan.yearlyPrice} /yr</p>
+              <p class="price2">2 months free</p>
               {:else}
-              <p>$ {plan.monthlyPrice} /yr</p>
+              <p class="price">$ {plan.monthlyPrice} /mo</p>
 						  {/if}
 					</div>
 				</button>
 			{/each}
 
       </div>
-      <div class="checkbox-div">
+      <div class="container-switch">
+      <label class="switch">
+       
         <input type="checkbox" checked={$subscription.billing === 'yearly'}
         on:change={() =>
           subscription.changeBilling($subscription.billing === 'yearly' ? 'monthly' :  'yearly')} />
-        {#if $subscription.billing === 'yearly' }
-        <p>
-          Yearly.
-        </p>
-       {:else}
-        <p>
-          Monthly.
-        </p>
-        {/if}
+                  <span class="slider round">  </span>  
+
+      </label>
+      <div class="is">
+      {#if $subscription.billing === 'yearly' }
+      <p class="monthly">Yearly.</p> 
+      {:else}
+       <p class="monthly"> Monthly.</p> {/if}
       </div>
-      <p>Show selected console.log </p><input type="checkbox" on:click={Test}> 
-      <br><Button />
-    </div>
-  
-       <!-- {#each plans as plan}
-       <button
-       class={$subscription.plan.id === plan.id ? 'active radio-button' : 'radio-button'}
-       on:click={() => subscription.changePlan(plan)}
-     >
-       
-          <label class="radio-btn">
-            <img src={`/imgs/icon-${plan.id}.svg`} alt={`${plan.id}`}>
-            <input type="radio" value="arcade" bind:group={subscriptionType} on:click={changePlanArc} />
-            <p class="step-2-bold">{plan.id}</p>
-            {#if yearsubs===false}
-            <p class="step-2-price" >{plan.monthlyPrice}</p>
-            {:else}
-            <p class="step-2-price" >{plan.yearlyPrice}</p>
-            <p>2 months free</p>
-            {/if}
-            
-          </label>
-        </button> -->
-          <!-- <label class="radio-btn">
-            <img src={Advanced} alt="advanced">
-            <input type="radio" value="advanced" bind:group={subscriptionType} on:click={changePlanAdv} />
-            <p class="step-2-bold">Advanced</p>
-            {#if yearsubs ===false}
-            <p class="step-2-price" >Arcade 12$.</p>
-            {:else}
-            <p class="step-2-price" >Arcade 120$.</p>
-            <p>2 months free</p>
-            {/if}
-          </label>
-      
-          <label class="radio-btn">
-            <img src={Pro} alt="pro">
-            <input type="radio" value="pro" bind:group={subscriptionType} on:click={changePlan}/>
-            <p class="step-2-bold">Pro</p>
-            {#if yearsubs ===false}
-            <p class="step-2-price" >Pro 15$.</p>
-            {:else}
-            <p class="step-2-price" >Pro 150$.</p>
-            <p>2 months free</p>
-            {/if}
-          </label> -->
-          <!-- {/each} -->
-          <!-- {#if subscriptionType === 'arcade'}
-            <p class="step-2-price" >Arcade 9$.</p>
-          {:else if subscriptionType === 'advanced'}
-            <p class="step-2-price" >Advanced 12$.</p>
-          {:else if subscriptionType === 'pro'}
-            <p class="step-2-price" >PRO 15$.</p>
-          {:else}
-            <p>Select subscription type.</p>
-          {/if} -->
+      </div>
+      </div> 
+      <Button />
   
   <style>
+    .container-switch{
+      display: flex;
+    }
+    .is{
+      padding-top: 1.5rem;
+      padding-left: 1.5rem;
+    }
+    .monthly{
+      color: rgb(2, 41, 89);
+font-family: Ubuntu;
+font-size: 14px;
+font-weight: 500;
+line-height: 16px;
+letter-spacing: 0px;
+margin-right: 3rem;
+margin-bottom: 114px;
+
+    }
+    .planName{
+      color: rgb(2, 41, 89);
+font-family: Ubuntu;
+font-size: 16px;
+font-weight: 500;
+line-height: 18px;
+letter-spacing: 0px;
+    }
+    .price2{
+      color: rgb(2, 41, 89);
+font-family: Ubuntu;
+font-size: 12px;
+font-weight: 400;
+line-height: 14px;
+letter-spacing: 0px;
+    }
+    .price{
+      color: rgb(150, 153, 170);
+      font-family: Ubuntu;
+font-size: 14px;
+font-weight: 400;
+line-height: 20px;
+letter-spacing: 0px;
+text-align: left;
+    }
   .radio-button {
     display: flex;
     cursor: pointer;
@@ -171,18 +161,6 @@
   
 
   
-  .checkbox-div {
-    /* Rectangle */
-  margin-top: 5px;
-  width: 450px;
-  height: 48px;
-  left: 640px;
-  right: -640px;
-  top: 461px;
-  bottom: -461px;
-  border-radius: 8px;
-  background: rgb(248, 249, 255);
-  }
   
   .step-title{
   color: rgb(2, 41, 89);
@@ -191,7 +169,6 @@
   font-weight: 700;
   line-height: 37px;
   letter-spacing: 0px;
-  text-align: left;
   }
   .step-subtitle{
   color: rgb(150, 153, 170);
@@ -202,7 +179,69 @@
   letter-spacing: 0px;
   text-align: left;
   }
- 
+  .switch {
+    margin-left: 8rem;
+    margin-top: 2rem;
+  position: relative;
+  display: flex;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
 
   
   
